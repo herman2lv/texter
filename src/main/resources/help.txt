@@ -1,0 +1,71 @@
+Usage: java -jar texter.jar -p <pattern> [options]
+
+Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
+			VALUES ('{first_name} {last_name}', '{email}', '{hash}');"
+			-o users-dml.sql -n 2000 -t true
+
+ Options include:
+
+	-p	<pattern> Pattern is an any string including special placeholders
+				which will be replaced by Texter with special values
+				Proper syntax for placeholder - placeholder type in curly
+				braces. Types are following:
+				
+				{email} - email address composed from first name, underscore,
+						last name, commercial at, email postfix, dot, web
+						domain. 
+						e.g. "Andy_Johnson@mail.com" 
+						
+				{first_name} - first name from a wide list of samples 
+				
+				{last_name} - first name from a wide list of samples
+				
+				{email_postfix} - most common email postfixes like "gmail",
+						"yahoo", "facebook", etc.
+						
+				{web_domain} - any valid web domain.
+						e.g. "com", "org", "us", "uk", etc.
+						
+				{noun} - random noun
+				
+				{verb} - random verb in infinitive form
+				
+				{adjective} - random adjective
+				
+				{number} - random integer number (decimal radix). Min and
+						max values could be defined with additional options
+						following placeholder type separated with colon. 
+						e.g. {number:1:300} - any random number from 1 to 300
+						
+				{decimal} - random number with floating poing (decimal radix). 
+						Min and max values could be defined with additional 
+						options following placeholder type separated with 
+						colon. 
+						e.g. {decimal:1.5:2.7} - any random decimal number 
+						from 1.5 to 2.7
+						
+				{sequence} - integer number which will be incremented after 
+						each generated line. Initial value and step should 
+						be defined with additional options following 
+						placeholder type separated with colon. 
+						e.g. {sequence:1:3} - sequence started with 1 and
+						incremented by 3 for any next line. The row will 
+						look like 1, 4, 7, 10, 13, etc.
+						
+				{hash} - random hexadecimal number containing 40 digits.
+						e.g. a9db62726afa6660d02efb9aed3d43398064531b
+						
+				{phone_number} - random phone number in US format
+						e.g. +1 (409) 943-831
+	
+	-n <number> Number of lines to generate. Default value is 1 
+	
+	-o <file name> Name of output file. Default value is out.sql that will
+				be created in application root directory
+	
+	-t <boolean> Boolean (true or false> value means enable transactional
+				output or not. If enabled sql key words START TRANSACTION
+				and COMMIT will be added in the beginning and the end of 
+				the output file (works with MySQL, MariaDB, PostgreSQL and
+				other popular relational database management systems.
+				Default value is false

@@ -16,3 +16,7 @@
 gradle-app.setting
 .gradletasknamecache
 **/src/test/
+.classpath
+.settings
+bin/
+out/

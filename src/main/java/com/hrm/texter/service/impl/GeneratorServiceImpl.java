@@ -1,33 +1,36 @@
-package com.hrm.texter.generators;
+package com.hrm.texter.service.impl;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Generator {
-    private final String pattern;
-    private MessageDigest messageDigest;
-    private final Reader reader;
-    private final Random random = new Random();
+import com.hrm.texter.data.Repository;
+import com.hrm.texter.service.Encryptor;
+import com.hrm.texter.service.GeneratorService;
+
+public class GeneratorServiceImpl implements GeneratorService {
+    private static final String F_POINT_FORMAT = "%.2f";
+    private final Encryptor encryptor;
+    private final Repository repository;
+    private final Random random;
     private Long sequence;
 
-    public Generator(String pattern, Reader reader) {
-        this.pattern = pattern;
-        this.reader = reader;
+    public GeneratorServiceImpl(Repository repository, Encryptor encryptor, Random random) {
+        this.repository = repository;
+        this.encryptor = encryptor;
+        this.random = random;
     }
 
-    public List<String> getPhrases(int number) {
+    @Override
+    public List<String> getPhrases(String pattern, int number) {
         List<String> phrases = new ArrayList<>();
         for (int i = 0; i < number; i++) {
-            phrases.add(getPhrase());
+            phrases.add(getPhrase(pattern));
         }
         return phrases;
     }
 
-    public String getPhrase() {
+    private String getPhrase(String pattern) {
         String firstName = null;
         String lastName = null;
         StringBuilder phrase = new StringBuilder(pattern);
@@ -51,11 +54,11 @@ public class Generator {
                 lastName = updateLastName(lastName);
                 value = lastName;
             }
-            case "email_postfix" -> value = reader.getEmailPostfix();
-            case "web_domain" -> value = reader.getWebDomain();
-            case "noun" -> value = reader.getNoun();
-            case "verb" -> value = reader.getVerb();
-            case "adjective" -> value = reader.getAdjective();
+            case "email_postfix" -> value = repository.getEmailPostfix();
+            case "web_domain" -> value = repository.getWebDomain();
+            case "noun" -> value = repository.getNoun();
+            case "verb" -> value = repository.getVerb();
+            case "adjective" -> value = repository.getAdjective();
             case "number" -> value = getNumber(commandFull);
             case "decimal" -> value = getDecimal(commandFull);
             case "sequence" -> value = getSequence(commandFull);
@@ -80,15 +83,15 @@ public class Generator {
     }
 
     private String updateLastName(String lastName) {
-        return lastName == null ? reader.getLastName() : lastName;
+        return lastName == null ? repository.getLastName() : lastName;
     }
 
     private String updateFirstName(String firstName) {
-        return firstName == null ? reader.getFirstName() : firstName;
+        return firstName == null ? repository.getFirstName() : firstName;
     }
 
     private String getEmail(String firstName, String lastName) {
-        return firstName + "_" + lastName + "@" + reader.getEmailPostfix() + "." + reader.getWebDomain();
+        return firstName + "_" + lastName + "@" + repository.getEmailPostfix() + "." + repository.getWebDomain();
     }
 
     private String getSequence(String commandFull) {
@@ -110,7 +113,7 @@ public class Generator {
     private String getDecimal(String commandFull) {
         double min = Double.parseDouble(getFirstParam(commandFull));
         double max = Double.parseDouble(getLastParam(commandFull));
-        return String.format("%.2f", random.nextDouble(min, max));
+        return String.format(F_POINT_FORMAT, random.nextDouble(min, max));
     }
 
     private String getLastParam(String commandFull) {
@@ -122,17 +125,8 @@ public class Generator {
     }
 
     private String getHash() {
-        if (messageDigest == null) {
-            try {
-                messageDigest = MessageDigest.getInstance("SHA-1");
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        messageDigest.update(String.valueOf(random.nextLong(Long.MAX_VALUE)).getBytes());
-        byte[] bytes = messageDigest.digest();
-        messageDigest.reset();
-        return new BigInteger(1, bytes).toString(16);
+        String rawData = String.valueOf(random.nextLong(Long.MAX_VALUE));
+        return encryptor.encrypt(rawData);
     }
 
     private int getNumber(Random random) {

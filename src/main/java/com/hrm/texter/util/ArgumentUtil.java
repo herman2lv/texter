@@ -1,6 +1,6 @@
-package com.hrm.texter.generators;
+package com.hrm.texter.util;
 
-public class ArgumentParser {
+public class ArgumentUtil {
     
     public static Options parseArgs(String[] args) {
         String pattern = "";

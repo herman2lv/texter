@@ -1,9 +1,9 @@
-package com.hrm.texter.generators;
+package com.hrm.texter.util;
 
 public class Options {
     private String pattern = "";
     private int number = 1;
-    private String output = "out.sql";
+    private String output = "out.txt";
     private boolean transactional = false;
     
     public Options(String pattern, int number, String output, boolean transactional) {

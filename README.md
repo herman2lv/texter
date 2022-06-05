@@ -1,12 +1,18 @@
-# DML Data Generator
+# Texter
 
-### Author: Herman Rabinkin
+## Simple application for SQL DDL scripts data generation
+
+##### Author: Herman Rabinkin
 
 ## Description
 
-This is an utility project and it was used as tool for SQL (DML) scripts 
-generation in order to generate test data for the Database of the 
-[Geft Certificate Service](https://github.com/herman2lv/mjc-school-gift-certificate) 
-project
+This is an utility application which can be used for generation of
+SQL insert-scripts to fill databases with test data
 
-_SQL Dialect - MySQL_
+The idea of application is to provide app with template with
+placeholders for names, phone numbers, emails and etc.
+and app will generate given number of lines where placeholders
+will be replaced with some random data. 
+
+For detailed info on how to use and configure application and
+what placeholders are available see [help](src/main/resources/help.txt) 

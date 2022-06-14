@@ -57,8 +57,8 @@ public class RepositoryImpl implements Repository {
 
     @Override
     public String getFirstName() {
-        if (nouns == null) {
-            nouns = reader.readLines("/nouns.txt");
+        if (firstNames == null) {
+            firstNames = reader.readLines("/first_name.txt");
         }
         return firstNames.get(random.nextInt(firstNames.size()));
     }

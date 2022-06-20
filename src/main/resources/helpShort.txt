@@ -1,4 +1,4 @@
-Usage: java -jar texter.jar -p <pattern> [options]
+Usage: java -jar texter.jar -p <pattern> | -i <file name> [options]
 
 Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 			VALUES ('{first_name} {last_name}', '{email}', '{hash}');"
@@ -24,6 +24,8 @@ Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 						{sequence} - integer number generated sequential order
 						{hash} - random hexadecimal number containing 40 digits
 						{phone_number} - random phone number
+						
+	-i <file name> Name of the input file, which contains pattern
 	
 	-n <number> Number of lines to generate. Default value is 1
 

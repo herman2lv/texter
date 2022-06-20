@@ -1,4 +1,4 @@
-Usage: java -jar texter.jar -p <pattern> [options]
+Usage: java -jar texter.jar -p <pattern> | -i <file name> [options]
 
 Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 			VALUES ('{first_name} {last_name}', '{email}', '{hash}');"
@@ -60,6 +60,9 @@ Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 						
 				{phone_number} - random phone number in US format
 						e.g. +1 (409) 943-831
+	
+	-i <file name> Name of the input file, which contains pattern. Could not be
+				used with -p <pattern>
 	
 	-n <number> Number of lines to generate. Default value is 1 
 	

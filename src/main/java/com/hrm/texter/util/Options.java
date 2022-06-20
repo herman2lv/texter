@@ -1,32 +1,42 @@
 package com.hrm.texter.util;
 
 public class Options {
-    private String pattern = "";
-    private int number = 1;
-    private String output = "out.txt";
-    private boolean transactional = false;
-    
-    public Options(String pattern, int number, String output, boolean transactional) {
-        this.pattern = pattern;
+    private String patternString;
+    private Integer number;
+    private String output;
+    private String patternFile;
+    private boolean transactional;
+
+    public Options(String patternFile, String patternString, int number, String output, boolean transactional) {
+        this.patternFile = patternFile;
+        this.patternString = patternString;
         this.number = number;
         this.output = output;
         this.transactional = transactional;
     }
 
-    public String getPattern() {
-        return pattern;
+    public String getPatternString() {
+        return patternString;
     }
 
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
+    public void setPatternString(String patternString) {
+        this.patternString = patternString;
     }
 
-    public int getNumber() {
-        return number;
+    public String getPatternFile() {
+        return patternFile;
     }
 
-    public void setNumber(int number) {
+    public void setPatternFile(String patternFile) {
+        this.patternFile = patternFile;
+    }
+
+    public void setNumber(Integer number) {
         this.number = number;
+    }
+    
+    public Integer getNumber() {
+        return number;
     }
 
     public String getOutput() {
@@ -47,8 +57,8 @@ public class Options {
 
     @Override
     public String toString() {
-        return "Options [pattern=" + pattern + ", number=" + number + ", output=" + output + ", transactional="
-                + transactional + "]";
+        return "Options [patternString=" + patternString + ", number=" + number + ", output=" + output
+                + ", patternFile=" + patternFile + ", transactional=" + transactional + "]";
     }
 
 }

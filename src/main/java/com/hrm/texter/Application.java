@@ -1,5 +1,8 @@
 package com.hrm.texter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 import com.hrm.texter.data.Repository;
@@ -25,12 +28,34 @@ public class Application {
             if (options == null) {
                 return;
             }
-            List<String> phrases = generator.getPhrases(options.getPattern(), options.getNumber());
+
+            List<String> phrases = generator.getPhrases(getPattern(options), options.getNumber());
             writer.saveQueries(options.getOutput(), phrases, options.isTransactional());
         } catch (Throwable e) {
             System.out.println("Try to run app with \"-h\" (--help) for help");
             System.err.println("Error: " + e.getMessage());
         }
+    }
+
+    private String getPattern(Options options) throws IOException {
+        String pattern = options.getPatternString();
+        if (pattern != null) {
+            return pattern;
+        }
+        byte[] bytes = Files.readAllBytes(Path.of(options.getPatternFile()));
+        int length = removeLastLineFeed(bytes);
+        return new String(bytes, 0, length);
+    }
+
+    private int removeLastLineFeed(byte[] bytes) {
+        int length = bytes.length;
+        if (bytes[length - 1] == '\n') {
+            length -= 1;
+            if (bytes[length - 1] == '\r') {
+                length -= 1;
+            }
+        }
+        return length;
     }
 
     private Options getOptions(String[] args) {

@@ -1,0 +1,33 @@
+Usage: java -jar texter.jar -p <pattern> [options]
+
+Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
+			VALUES ('{first_name} {last_name}', '{email}', '{hash}');"
+			-o users-dml.sql -n 2000 -t true
+
+ Options include:
+ 	-h --help	Print this help info
+ 	
+ 	--man		Print full manual info
+
+	-p	<pattern> 	Any string including special placeholders for Texter
+					Types are following:
+						{email} - valid email address
+						{first_name} - random first name 
+						{last_name} - random last name
+						{email_postfix} - random most common email postfix
+						{web_domain} - any valid web domain
+						{noun} - random noun
+						{verb} - random verb in infinitive form
+						{adjective} - random adjective
+						{number} - random integer number
+						{decimal} - random number with floating point 
+						{sequence} - integer number generated sequential order
+						{hash} - random hexadecimal number containing 40 digits
+						{phone_number} - random phone number
+	
+	-n <number> Number of lines to generate. Default value is 1
+
+	-o <file name> Name of output file. Default value is out.sql that will
+				be created in application root directory
+	
+	-t <boolean> ("true" or "false") enable transactional output. Default value is false

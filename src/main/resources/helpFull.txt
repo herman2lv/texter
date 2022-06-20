@@ -5,6 +5,9 @@ Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 			-o users-dml.sql -n 2000 -t true
 
  Options include:
+ 	-h --help	Print short help info
+ 	
+ 	--man		Print this full manual info
 
 	-p	<pattern> Pattern is an any string including special placeholders
 				which will be replaced by Texter with special values

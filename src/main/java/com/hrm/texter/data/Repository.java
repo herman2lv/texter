@@ -16,6 +16,8 @@ public interface Repository {
 
     String getWebDomain();
 
-    String getHelp();
+    String getHelpShort();
+    
+    String getHelpFull();
 
 }

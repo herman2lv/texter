@@ -80,11 +80,18 @@ public class RepositoryImpl implements Repository {
     }
 
     @Override
-    public String getHelp() {
+    public String getHelpShort() {
+        if (help == null) {
+            help = reader.read("/helpShort.txt");
+        }
+        return help;
+    }
+
+    @Override
+    public String getHelpFull() {
         if (help == null) {
             help = reader.read("/helpFull.txt");
         }
         return help;
     }
-
 }

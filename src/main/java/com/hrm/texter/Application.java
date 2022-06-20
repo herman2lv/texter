@@ -38,7 +38,11 @@ public class Application {
             throw new RuntimeException("Empty arguments list");
         }
         if (args[0].equals("-h") || args[0].endsWith("help")) {
-            System.out.println(repository.getHelp());
+            System.out.println(repository.getHelpShort());
+            return null;
+        }
+        if (args[0].equals("--man")) {
+            System.out.println(repository.getHelpFull());
             return null;
         }
         if (args.length < 2) {

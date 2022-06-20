@@ -82,7 +82,7 @@ public class RepositoryImpl implements Repository {
     @Override
     public String getHelp() {
         if (help == null) {
-            help = reader.read("/help.txt");
+            help = reader.read("/helpFull.txt");
         }
         return help;
     }

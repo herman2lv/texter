@@ -18,7 +18,7 @@ Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 						
 				{first_name} - first name from a wide list of samples 
 				
-				{last_name} - first name from a wide list of samples
+				{last_name} - last name from a wide list of samples
 				
 				{email_postfix} - most common email postfixes like "gmail",
 						"yahoo", "facebook", etc.
@@ -63,8 +63,8 @@ Example: java -jar texter.jar -p "INSERT INTO users (name, email, password)
 	-o <file name> Name of output file. Default value is out.sql that will
 				be created in application root directory
 	
-	-t <boolean> Boolean (true or false> value means enable transactional
-				output or not. If enabled sql key words START TRANSACTION
+	-t <boolean> Boolean ("true" or "false") value means enable transactional
+				output or not. If enabled SQL key words START TRANSACTION
 				and COMMIT will be added in the beginning and the end of 
 				the output file (works with MySQL, MariaDB, PostgreSQL and
 				other popular relational database management systems.

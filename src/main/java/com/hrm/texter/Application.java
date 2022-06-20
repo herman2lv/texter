@@ -34,12 +34,15 @@ public class Application {
     }
 
     private Options getOptions(String[] args) {
-        if (args.length < 2) {
-            throw new RuntimeException("Invalid arguments length!");
+        if (args.length == 0) {
+            throw new RuntimeException("Empty arguments list");
         }
         if (args[0].equals("-h") || args[0].endsWith("help")) {
             System.out.println(repository.getHelp());
             return null;
+        }
+        if (args.length < 2) {
+            throw new RuntimeException("Invalid arguments length!");
         }
         return ArgumentUtil.parseArgs(args);
     }

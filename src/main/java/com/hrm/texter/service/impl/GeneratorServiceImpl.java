@@ -13,7 +13,7 @@ public class GeneratorServiceImpl implements GeneratorService {
     private final Encryptor encryptor;
     private final Repository repository;
     private final Random random;
-    private final List<Long> sequenceList = new ArrayList<>();
+    private final List<Sequence> sequenceList = new ArrayList<>();
 
     public GeneratorServiceImpl(Repository repository, Encryptor encryptor, Random random) {
         this.repository = repository;
@@ -95,16 +95,40 @@ public class GeneratorServiceImpl implements GeneratorService {
         return firstName + "_" + lastName + "@" + repository.getEmailPostfix() + "." + repository.getWebDomain();
     }
 
+    private static class Sequence {
+        private Long value;
+        private final Long step;
+
+        public Sequence(Long value, Long step) {
+            super();
+            this.value = value;
+            this.step = step;
+        }
+
+        public Long getValue() {
+            return value;
+        }
+
+        public void setValue(Long value) {
+            this.value = value;
+        }
+
+        public Long getStep() {
+            return step;
+        }
+
+    }
+
     private String getSequence(String commandFull, int currentSequence) {
         long number;
         if (sequenceList.size() < currentSequence) {
             number = Long.parseLong(getFirstParam(commandFull));
-            sequenceList.add(number);
-        } else {
             long step = Long.parseLong(getLastParam(commandFull));
-            number = sequenceList.get(currentSequence - 1) + step;
-            sequenceList.set(currentSequence - 1, number);
-            
+            sequenceList.add(new Sequence(number, step));
+        } else {
+            Sequence current = sequenceList.get(currentSequence - 1);
+            number = current.getValue() + current.getStep();
+            current.setValue(number);
         }
         return String.valueOf(number);
     }

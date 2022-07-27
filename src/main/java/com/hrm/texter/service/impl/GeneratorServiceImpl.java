@@ -13,7 +13,7 @@ public class GeneratorServiceImpl implements GeneratorService {
     private final Encryptor encryptor;
     private final Repository repository;
     private final Random random;
-    private Long sequence;
+    private final List<Long> sequenceList = new ArrayList<>();
 
     public GeneratorServiceImpl(Repository repository, Encryptor encryptor, Random random) {
         this.repository = repository;
@@ -33,6 +33,7 @@ public class GeneratorServiceImpl implements GeneratorService {
     private String getPhrase(String pattern) {
         String firstName = null;
         String lastName = null;
+        int currentSequence = 0;
         StringBuilder phrase = new StringBuilder(pattern);
         int placeholderStart;
         while ((placeholderStart = phrase.indexOf("{")) != -1) {
@@ -61,7 +62,7 @@ public class GeneratorServiceImpl implements GeneratorService {
             case "adjective" -> value = repository.getAdjective();
             case "number" -> value = getNumber(commandFull);
             case "decimal" -> value = getDecimal(commandFull);
-            case "sequence" -> value = getSequence(commandFull);
+            case "sequence" -> value = getSequence(commandFull, ++currentSequence);
             case "hash" -> value = getHash();
             case "phone_number" -> value = getPhoneNumber();
             default -> throw new IllegalArgumentException("Illegal value {" + command + "}");
@@ -94,13 +95,17 @@ public class GeneratorServiceImpl implements GeneratorService {
         return firstName + "_" + lastName + "@" + repository.getEmailPostfix() + "." + repository.getWebDomain();
     }
 
-    private String getSequence(String commandFull) {
-        if (sequence == null) {
-            sequence = Long.parseLong(getFirstParam(commandFull));
+    private String getSequence(String commandFull, int currentSequence) {
+        long number;
+        if (sequenceList.size() < currentSequence) {
+            number = Long.parseLong(getFirstParam(commandFull));
+            sequenceList.add(number);
+        } else {
+            long step = Long.parseLong(getLastParam(commandFull));
+            number = sequenceList.get(currentSequence - 1) + step;
+            sequenceList.set(currentSequence - 1, number);
+            
         }
-        long number = sequence;
-        String step = getLastParam(commandFull);
-        sequence += Long.parseLong(step);
         return String.valueOf(number);
     }
 
